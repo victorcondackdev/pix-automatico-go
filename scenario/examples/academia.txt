@@ -1,0 +1,15 @@
+# Gym: journey 3 (immediate first payment + weekly recurrence), payer cancels late at night.
+clock 2026-11-27T10:00
+account 11122233344 20.00
+rec gym contrato=MATRICULA-9 objeto=Plano_semanal devedor=11122233344 nome=Ana_Prado recebedor=Academia_Forte inicio=2026-12-04 periodicidade=SEMANAL valor=35.00 jornada=3
+approve gym imediato=35.00
+deposit 11122233344 200.00
+approve gym imediato=35.00
+advance 2026-12-01T09:00
+charge s1 gym 2026-12-04 35.00
+charge s1b gym 2026-12-05 35.00
+advance 2026-12-03T22:15
+cancelrec gym PAGADOR mudou_de_academia
+advance 2026-12-05T00:00
+status s1
+charge s2 gym 2026-12-11 35.00

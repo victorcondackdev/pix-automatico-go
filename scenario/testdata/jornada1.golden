@@ -1,0 +1,39 @@
+> clock 2026-11-27T10:00
+  ok
+> rec escola contrato=MENSALIDADE-2027 objeto=Mensalidade devedor=55566677788 nome=Carlos_Reis recebedor=Escola_Viva inicio=2027-02-05 fim=2027-12-05 periodicidade=MENSAL valor=890.00 retentativa=PERMITE_3R_7D jornada=1
+  ok RR123456782026112700000000001
+  · 2026-11-27 10:00 rec.criada RR123456782026112700000000001 jornada 1 MENSAL R$ 890,00 PERMITE_3R_7D
+> approve escola
+  erro RecOperacaoInvalida: jornada 1 exige solicitação de confirmação pendente
+> solicit escola s1 2027-01-10T10:00
+  erro SolicRecOperacaoInvalida: expiração deve ser futura e em até 30 dias
+> solicit escola s1 2026-11-30T10:00
+  ok SC123456782026112700000000002
+  · 2026-11-27 10:00 solicrec.enviada SC123456782026112700000000002 rec RR123456782026112700000000001 expira 2026-11-30 10:00
+> solicit escola s2 2026-11-29T10:00
+  erro SolicRecOperacaoInvalida: já existe solicitação ativa SC123456782026112700000000002 para a recorrência
+> revise escola 2027-02-10
+  erro RecOperacaoInvalida: cancele a solicitação SC123456782026112700000000002 (ERSL) antes de alterar a recorrência
+> advance 2026-12-01T00:00
+  ok 2026-12-01 00:00
+  · 2026-11-30 10:00 solicrec.expirada SC123456782026112700000000002
+> solicit escola s3 2026-12-03T00:00
+  erro SolicRecOperacaoInvalida: oferta idêntica não confirmada há menos de 30 dias; revise a recorrência
+> revise escola 2027-02-10
+  ok
+  · 2026-12-01 00:00 rec.revisada RR123456782026112700000000001 dataInicial 2027-02-10
+> solicit escola s3 2026-12-03T00:00
+  ok SC123456782026120100000000003
+  · 2026-12-01 00:00 solicrec.enviada SC123456782026120100000000003 rec RR123456782026112700000000001 expira 2026-12-03 00:00
+> cancelsolic s3
+  ok
+  · 2026-12-01 00:00 solicrec.cancelada SC123456782026120100000000003
+> solicit escola s4 2026-12-04T00:00
+  ok SC123456782026120100000000004
+  · 2026-12-01 00:00 solicrec.enviada SC123456782026120100000000004 rec RR123456782026112700000000001 expira 2026-12-04 00:00
+> reject escola
+  ok
+  · 2026-12-01 00:00 solicrec.rejeitada SC123456782026120100000000004
+  · 2026-12-01 00:00 rec.rejeitada RR123456782026112700000000001
+> status escola
+  rec REJEITADA max R$ 0,00

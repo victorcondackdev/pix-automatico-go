@@ -1,0 +1,14 @@
+# Streaming: fixed monthly value, journey 2 (QR with the recurrence only).
+clock 2026-11-27T10:00
+account 12345678909 100.00
+rec netflix contrato=ASSINATURA-778 objeto=Plano_Premium devedor=12345678909 nome=Maria_Souza recebedor=Streaming_SA inicio=2026-12-10 periodicidade=MENSAL valor=39.90 jornada=2
+approve netflix
+advance 2026-11-30T09:00
+charge dez netflix 2026-12-10 39.90
+advance 2026-12-10T12:00
+status dez
+advance 2026-12-31T09:00
+charge jan netflix 2027-01-10 39.90
+advance 2027-01-09T08:00
+cancelcharge jan PAGADOR
+status netflix

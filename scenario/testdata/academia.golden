@@ -1,0 +1,35 @@
+> clock 2026-11-27T10:00
+  ok
+> account 11122233344 20.00
+  ok
+> rec gym contrato=MATRICULA-9 objeto=Plano_semanal devedor=11122233344 nome=Ana_Prado recebedor=Academia_Forte inicio=2026-12-04 periodicidade=SEMANAL valor=35.00 jornada=3
+  ok RR123456782026112700000000001
+  · 2026-11-27 10:00 rec.criada RR123456782026112700000000001 jornada 3 SEMANAL R$ 35,00 NAO_PERMITE
+> approve gym imediato=35.00
+  erro PagamentoNaoRealizado: pagamento imediato não realizado (saldo insuficiente); autorização não concedida
+  · 2026-11-27 10:00 pix.imediato.recusado RR123456782026112700000000001 R$ 35,00 saldo insuficiente
+> deposit 11122233344 200.00
+  ok saldo R$ 220,00
+> approve gym imediato=35.00
+  ok
+  · 2026-11-27 10:00 pix.imediato.liquidado RR123456782026112700000000001 R$ 35,00
+  · 2026-11-27 10:00 rec.aprovada RR123456782026112700000000001
+> advance 2026-12-01T09:00
+  ok 2026-12-01 09:00
+> charge s1 gym 2026-12-04 35.00
+  ok AUT12345678000000000000000000002 ATIVA
+  · 2026-12-01 09:00 cobr.agendada AUT12345678000000000000000000002 R$ 35,00 vencimento 2026-12-04 ciclo 0
+> charge s1b gym 2026-12-05 35.00
+  erro CobrOperacaoInvalida: já existe cobrança AUT12345678000000000000000000002 para o ciclo 0
+> advance 2026-12-03T22:15
+  ok 2026-12-03 22:15
+> cancelrec gym PAGADOR mudou_de_academia
+  ok
+  · 2026-12-03 22:15 rec.cancelada RR123456782026112700000000001 por PAGADOR: mudou_de_academia; débitos a partir de 2026-12-05 cancelados
+> advance 2026-12-05T00:00
+  ok 2026-12-05 00:00
+  · 2026-12-04 00:00 cobr.liquidada AUT12345678000000000000000000002 R$ 35,00 janela 1 (AGND)
+> status s1
+  cobr CONCLUIDA AGND:2026-12-04:LIQUIDADA
+> charge s2 gym 2026-12-11 35.00
+  erro CobrOperacaoInvalida: recorrência não está aprovada (status CANCELADA)

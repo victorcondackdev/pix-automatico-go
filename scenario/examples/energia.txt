@@ -1,0 +1,19 @@
+# Electricity bill: variable value, payer maximum, receiver floor, retries.
+clock 2026-11-27T10:00
+account 98765432100 50.00 500.00
+rec luz contrato=UC-0042 objeto=Conta_de_energia devedor=98765432100 nome=Joao_Lima recebedor=Energia_Rio inicio=2026-12-15 periodicidade=MENSAL piso=150.00 retentativa=PERMITE_3R_7D ajuste=sim jornada=2
+approve luz max=120.00
+approve luz max=200.00
+advance 2026-12-05T09:00
+charge dez luz 2026-12-15 312.45
+max luz 400.00
+charge dez2 luz 2026-12-15 312.45
+advance 2026-12-15T19:00
+retry dez2 2026-12-15
+retry dez2 2026-12-16
+advance 2026-12-16T21:30
+retry dez2 2026-12-18
+deposit 98765432100 300.00
+advance 2026-12-18T09:00
+status dez2
+retry dez2 2026-12-19

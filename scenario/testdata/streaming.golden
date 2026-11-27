@@ -1,0 +1,32 @@
+> clock 2026-11-27T10:00
+  ok
+> account 12345678909 100.00
+  ok
+> rec netflix contrato=ASSINATURA-778 objeto=Plano_Premium devedor=12345678909 nome=Maria_Souza recebedor=Streaming_SA inicio=2026-12-10 periodicidade=MENSAL valor=39.90 jornada=2
+  ok RR123456782026112700000000001
+  · 2026-11-27 10:00 rec.criada RR123456782026112700000000001 jornada 2 MENSAL R$ 39,90 NAO_PERMITE
+> approve netflix
+  ok
+  · 2026-11-27 10:00 rec.aprovada RR123456782026112700000000001
+> advance 2026-11-30T09:00
+  ok 2026-11-30 09:00
+> charge dez netflix 2026-12-10 39.90
+  ok AUT12345678000000000000000000002 ATIVA
+  · 2026-11-30 09:00 cobr.agendada AUT12345678000000000000000000002 R$ 39,90 vencimento 2026-12-10 ciclo 0
+> advance 2026-12-10T12:00
+  ok 2026-12-10 12:00
+  · 2026-12-10 00:00 cobr.liquidada AUT12345678000000000000000000002 R$ 39,90 janela 1 (AGND)
+> status dez
+  cobr CONCLUIDA AGND:2026-12-10:LIQUIDADA
+> advance 2026-12-31T09:00
+  ok 2026-12-31 09:00
+> charge jan netflix 2027-01-10 39.90
+  ok AUT12345678000000000000000000003 ATIVA
+  · 2026-12-31 09:00 cobr.agendada AUT12345678000000000000000000003 R$ 39,90 vencimento 2027-01-10 ciclo 1
+> advance 2027-01-09T08:00
+  ok 2027-01-09 08:00
+> cancelcharge jan PAGADOR
+  ok
+  · 2027-01-09 08:00 cobr.cancelada AUT12345678000000000000000000003 por PAGADOR
+> status netflix
+  rec APROVADA max R$ 0,00

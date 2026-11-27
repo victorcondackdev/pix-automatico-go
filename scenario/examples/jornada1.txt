@@ -1,0 +1,16 @@
+# Journey 1: confirmation request lifecycle (pain.009 / pain.011).
+clock 2026-11-27T10:00
+rec escola contrato=MENSALIDADE-2027 objeto=Mensalidade devedor=55566677788 nome=Carlos_Reis recebedor=Escola_Viva inicio=2027-02-05 fim=2027-12-05 periodicidade=MENSAL valor=890.00 retentativa=PERMITE_3R_7D jornada=1
+approve escola
+solicit escola s1 2027-01-10T10:00
+solicit escola s1 2026-11-30T10:00
+solicit escola s2 2026-11-29T10:00
+revise escola 2027-02-10
+advance 2026-12-01T00:00
+solicit escola s3 2026-12-03T00:00
+revise escola 2027-02-10
+solicit escola s3 2026-12-03T00:00
+cancelsolic s3
+solicit escola s4 2026-12-04T00:00
+reject escola
+status escola

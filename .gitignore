@@ -1,0 +1,14 @@
+# Build and test artifacts
+/ledger-demo
+*.test
+*.out
+*.prof
+coverage.*
+/bin/
+/dist/
+
+# Editors and OS
+.idea/
+.vscode/
+*.swp
+.DS_Store

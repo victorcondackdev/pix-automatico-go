@@ -1,0 +1,51 @@
+> clock 2026-11-27T10:00
+  ok
+> account 98765432100 50.00 500.00
+  ok
+> rec luz contrato=UC-0042 objeto=Conta_de_energia devedor=98765432100 nome=Joao_Lima recebedor=Energia_Rio inicio=2026-12-15 periodicidade=MENSAL piso=150.00 retentativa=PERMITE_3R_7D ajuste=sim jornada=2
+  ok RR123456782026112700000000001
+  · 2026-11-27 10:00 rec.criada RR123456782026112700000000001 jornada 2 MENSAL variável PERMITE_3R_7D
+> approve luz max=120.00
+  erro RecOperacaoInvalida: valor máximo abaixo do piso do recebedor (R$ 150,00)
+> approve luz max=200.00
+  ok
+  · 2026-11-27 10:00 rec.aprovada RR123456782026112700000000001 valor máximo R$ 200,00
+> advance 2026-12-05T09:00
+  ok 2026-12-05 09:00
+> charge dez luz 2026-12-15 312.45
+  ok AUT12345678000000000000000000002 REJEITADA
+  · 2026-12-05 09:00 cobr.rejeitada AUT12345678000000000000000000002 R$ 312,45 acima do máximo R$ 200,00
+  · 2026-12-05 09:00 notificacao.pagador 98765432100 cobrança de R$ 312,45 acima do seu valor máximo R$ 200,00: revise o limite ou pague por outro meio
+> max luz 400.00
+  ok
+  · 2026-12-05 09:00 rec.valormaximo RR123456782026112700000000001 R$ 400,00
+> charge dez2 luz 2026-12-15 312.45
+  ok AUT12345678000000000000000000003 ATIVA
+  · 2026-12-05 09:00 cobr.agendada AUT12345678000000000000000000003 R$ 312,45 vencimento 2026-12-15 ciclo 0
+> advance 2026-12-15T19:00
+  ok 2026-12-15 19:00
+  · 2026-12-15 00:00 cobr.janela1.falhou AUT12345678000000000000000000003 saldo insuficiente
+  · 2026-12-15 00:00 notificacao.pagador 98765432100 débito de R$ 312,45 para Energia Rio não realizado (saldo insuficiente); nova tentativa às 18h
+  · 2026-12-15 18:00 cobr.nao_liquidada AUT12345678000000000000000000003 AGND saldo insuficiente
+> retry dez2 2026-12-15
+  erro CobrOperacaoInvalida: nova tentativa deve ser em até 7 dias após o vencimento
+> retry dez2 2026-12-16
+  ok
+  · 2026-12-15 19:00 cobr.retentativa AUT12345678000000000000000000003 1/3 em 2026-12-16
+> advance 2026-12-16T21:30
+  ok 2026-12-16 21:30
+  · 2026-12-16 00:00 cobr.janela1.falhou AUT12345678000000000000000000003 saldo insuficiente
+  · 2026-12-16 00:00 notificacao.pagador 98765432100 débito de R$ 312,45 para Energia Rio não realizado (saldo insuficiente); nova tentativa às 18h
+  · 2026-12-16 18:00 cobr.nao_liquidada AUT12345678000000000000000000003 NTAG saldo insuficiente
+> retry dez2 2026-12-18
+  ok
+  · 2026-12-16 21:30 cobr.retentativa AUT12345678000000000000000000003 2/3 em 2026-12-18
+> deposit 98765432100 300.00
+  ok saldo R$ 350,00
+> advance 2026-12-18T09:00
+  ok 2026-12-18 09:00
+  · 2026-12-18 00:00 cobr.liquidada AUT12345678000000000000000000003 R$ 312,45 janela 1 (NTAG)
+> status dez2
+  cobr CONCLUIDA AGND:2026-12-15:NAO_LIQUIDADA NTAG:2026-12-16:NAO_LIQUIDADA NTAG:2026-12-18:LIQUIDADA
+> retry dez2 2026-12-19
+  erro CobrOperacaoInvalida: nova tentativa só após tentativa não liquidada
